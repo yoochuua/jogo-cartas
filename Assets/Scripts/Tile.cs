@@ -24,12 +24,13 @@ public class Tile : MonoBehaviour
     public void OnMouseDown()
     {
         //Se carta já foi revelada, mostra a parte de trás ao clicar na carta
-        if(tileRevelada)
+       /* if(tileRevelada)
             EscondeCarta();
 
         //Caso contrário mostra a frente
         else
-            RevelaCarta();
+            RevelaCarta();*/ // aqui não se guarda o número de cartas
+            GameObject.Find("gameManager").GetComponent<ManageCartas>().CartaSelecionada(gameObject);
     }
 
     //Método que vira a carta mostrando a parte de trás
