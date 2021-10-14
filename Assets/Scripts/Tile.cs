@@ -6,11 +6,13 @@ public class Tile : MonoBehaviour
 {
     private bool  tileRevelada = false; //indica se a carta está virada
     public Sprite originalCarta; // Sprite da frente da carta
-    public Sprite backCarta; // Sprite do verso da carta
-
+    public Sprite backCarta; // Sprite do verso da carta vermelha
+    public Sprite backCartaAzul; // Sprite do verso da carta azul
     // Start is called before the first frame update
+    int dificuldade = 0;
     void Start()
     {
+        dificuldade = PlayerPrefs.GetInt("Dificuldade",0);
         EscondeCarta();
     }
 
@@ -36,8 +38,18 @@ public class Tile : MonoBehaviour
     //Método que vira a carta mostrando a parte de trás
     public void EscondeCarta()
     {
+        if(dificuldade == 1){
         GetComponent<SpriteRenderer>().sprite = backCarta;
         tileRevelada = false;
+        }
+        if(dificuldade == 0){
+        GetComponent<SpriteRenderer>().sprite = backCartaAzul;
+        tileRevelada = false;
+        }
+        else{
+             GetComponent<SpriteRenderer>().sprite = backCarta;
+        tileRevelada = false;
+        }
     }
 
     //Método que vira a carta mostrando a parte da frente

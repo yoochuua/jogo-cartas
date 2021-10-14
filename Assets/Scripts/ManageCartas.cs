@@ -15,16 +15,23 @@ public class ManageCartas : MonoBehaviour
     float timer;//tempo
     int numTentativas = 0; // numero de tentativas na rodada
     int numAcertos = 0; // numero de acertos na rodada
-    AudioSource somOK; // som de sucesso ao escolher a carta correta
-    int ultimoJogo = 0;
+    public AudioSource[] sons = new AudioSource[3]; // sons da tela
+    int ultimoJogo = 0; // tentaivas da ultima jogada
+    int recorde = 0; // recorde do jogo
+    int dificuldade = 0; // dificuldade do game escolhida
     // Start is called before the first frame update
     void Start()
     {
         MostraCartas();
         UpdateTentativas();
-        somOK = GetComponent<AudioSource>();
+        //somOK = GetComponent<AudioSource>();
         ultimoJogo = PlayerPrefs.GetInt("Jogadas", 0);
+        recorde = PlayerPrefs.GetInt("Recorde",0);
+        dificuldade = PlayerPrefs.GetInt("Dificuldade",0);
+        GameObject.Find ("Restart").transform.localScale = new Vector3(0, 0, 0);
+        GameObject.Find ("FinalizarJogo").transform.localScale = new Vector3(0, 0, 0);
         GameObject.Find("ultimaJogada").GetComponent<Text>().text = "Jogo Anterior = " + ultimoJogo;
+        GameObject.Find("recorde").GetComponent<Text>().text = "Recorde = " + recorde;
     }
 
     // Update is called once per frame
@@ -40,14 +47,27 @@ public class ManageCartas : MonoBehaviour
                     Destroy(carta1);
                     Destroy(carta2);
                     numAcertos++;
-                    somOK.Play();
+                    //somOK.Play();
+                    sons[0].Play();
                     if(numAcertos ==13){
                         PlayerPrefs.SetInt("Jogadas",numTentativas);
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                         if(numTentativas > recorde || recorde == 0){
+                             sons[2].Play();
+                             PlayerPrefs.SetInt("Recorde",numTentativas);
+                            GameObject.Find("novoRecorde").GetComponent<Text>().text = "Parabens!!!! Novo Record de " + recorde + " pontos";
+                         }
+                         else{
+                              sons[3].Play();
+                              GameObject.Find("novoRecorde").GetComponent<Text>().text = "infelimente você não atingiu um novo recorde";
+                         }
+                        GameObject.Find ("Restart").transform.localScale = new Vector3(1, 1, 1);
+                        GameObject.Find ("FinalizarJogo").transform.localScale = new Vector3(1, 1, 1);
+                        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     }
                 }
                 else{
-                    carta1.GetComponent<Tile>().EscondeCarta();
+                    sons[1].Play();
+                   carta1.GetComponent<Tile>().EscondeCarta();
                     carta2.GetComponent<Tile>().EscondeCarta();
                 }
                 primeiraCartaSelecionada = false;
@@ -60,7 +80,15 @@ public class ManageCartas : MonoBehaviour
             }
         }
     }
+    /*função que reinicia o jogo*/
+    public void restart(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
+    /*botão que leva para a tela de fim de game*/
+    public void telaCreditos(){
+        SceneManager.LoadScene("Creditos");
+    }
     //Método que cria uma quantidade x de cartas
     void MostraCartas()
     {

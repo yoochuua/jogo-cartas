@@ -124,3 +124,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalCarta: {fileID: 21300000, guid: 8f58effeeb2da474db7756c2260bc82d, type: 3}
   backCarta: {fileID: 21300000, guid: 3ccb9dd55b8fa9645a1915b25da7bb23, type: 3}
+  backCartaAzul: {fileID: 21300000, guid: 93b3127075cc4174a952ef8eda559e60, type: 3}
