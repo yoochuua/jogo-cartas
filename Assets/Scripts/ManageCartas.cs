@@ -92,18 +92,76 @@ public class ManageCartas : MonoBehaviour
     //Método que cria uma quantidade x de cartas
     void MostraCartas()
     {
-        int[] arrayEmbaralhado = criaArrayEmbaralhado();
-        int[] arrayEmbaralhado1 = criaArrayEmbaralhado();
-        for (int i = 0; i < 13; i++)
+        if (dificuldade == 0)
         {
-            AddUmaCarta(0, i, arrayEmbaralhado[i]);
-            AddUmaCarta(1, i, arrayEmbaralhado1[i]);
+            int[] arrayEmbaralhado = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado1 = criaArrayEmbaralhado();
+            for (int i = 0; i < 13; i++)
+            {
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
+            }
         }
+        else if (dificuldade == 1)
+        {
+            int[] arrayEmbaralhado = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado1 = criaArrayEmbaralhado();
+            for (int i = 0; i < 13; i++)
+            {
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
+            }
+        }
+        else if (dificuldade == 2)
+        {
+            int[] arrayEmbaralhado = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado1 = criaArrayEmbaralhado();
+            for (int i = 0; i < 13; i++)
+            {
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_spades");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_spades");
+            }
+        }
+        else if(dificuldade == 3)
+        {
+            int[] arrayEmbaralhado = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado1 = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado2 = criaArrayEmbaralhado();
+            int[] arrayEmbaralhado3 = criaArrayEmbaralhado();
+            for (int i = 0; i < 13; i++) 
+            {
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
+                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_spades");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_spades");
+                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_clubs");
+                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_clubs");
+                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_hearts");
+                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_hearts");
+                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_diamonds");
+                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_diamonds");
+                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_spades");
+                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_spades");
+            }
+        }
+            
         
     }
 
     //Cria uma carta com as cartacteristicas segundo o parametro passado
-    void AddUmaCarta(int linha, int valor, int rank)
+    void AddUmaCarta(int linha, int valor, int rank, string naipeDaCarta)
     {
         GameObject centro  = GameObject.Find("centroDaTela");
         float escalaCartaOriginal = carta.transform.localScale.x;
@@ -128,7 +186,7 @@ public class ManageCartas : MonoBehaviour
         else
             numeroDaCarta = "" + (rank + 1);
         
-        nomeDaCarta = numeroDaCarta + "_of_clubs";
+        nomeDaCarta = numeroDaCarta + naipeDaCarta;
         Sprite s1 = (Sprite)(Resources.Load<Sprite>(nomeDaCarta)); //Encontra a imagem da carta no resources
         GameObject.Find("" + linha + " " +rank).GetComponent<Tile>().SetCartaOriginal(s1); // Seta no tile criado
     }
@@ -147,14 +205,14 @@ public class ManageCartas : MonoBehaviour
     }
     public void CartaSelecionada (GameObject carta){
         if(!primeiraCartaSelecionada){
-            string linha = carta.name.Substring(0,1);
+            string linha = carta.name;
             linhaCarta1 = linha;
             primeiraCartaSelecionada = true;
             carta1 = carta;
             carta1.GetComponent<Tile>().RevelaCarta();
         }
         else if ( primeiraCartaSelecionada && !segundaCartaSelecionada ){
-            string linha = carta.name.Substring(0,1);
+            string linha = carta.name;
             linhaCarta2 = linha;
             segundaCartaSelecionada = true;
             carta2 = carta;
