@@ -572,15 +572,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A GAME BY:
-
-
-    Matheus Borges 11201920817
-
-    Veronica Isobe   11201920292
-
-    Vitor
-    Misseno     11201921080'
+  m_Text: "A GAME BY:\n\nMatheus Borges 11201920817\nVeronica Isobe   11201920292\nVitor
+    Misseno     11201921080\nVin\xEDcius Russo   11201921701"
 --- !u!222 &1117529265
 CanvasRenderer:
   m_ObjectHideFlags: 0
