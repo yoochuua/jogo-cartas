@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+///<summary>
+/// Classe que controla o jogo
+///</summary>
 public class ManageCartas : MonoBehaviour
 {
     public GameObject carta; // Carta a ser descartada
@@ -19,22 +22,27 @@ public class ManageCartas : MonoBehaviour
     int ultimoJogo = 0; // tentaivas da ultima jogada
     int recorde = 0; // recorde do jogo
     int dificuldade = 0; // dificuldade do game escolhida
-    // Start is called before the first frame update
+    
+    /*
+        Start is called before the first frame update
+    */
     void Start()
-    {
+    {   
+        dificuldade = PlayerPrefs.GetInt("Dificuldade",0);
         MostraCartas();
         UpdateTentativas();
         //somOK = GetComponent<AudioSource>();
         ultimoJogo = PlayerPrefs.GetInt("Jogadas", 0);
         recorde = PlayerPrefs.GetInt("Recorde",0);
-        dificuldade = PlayerPrefs.GetInt("Dificuldade",0);
         GameObject.Find ("Restart").transform.localScale = new Vector3(0, 0, 0);
         GameObject.Find ("FinalizarJogo").transform.localScale = new Vector3(0, 0, 0);
         GameObject.Find("ultimaJogada").GetComponent<Text>().text = "Jogo Anterior = " + ultimoJogo;
         GameObject.Find("recorde").GetComponent<Text>().text = "Recorde = " + recorde;
     }
 
-    // Update is called once per frame
+    /*
+        Update is called once per frame
+    */
     void Update()
     {
         if(timerAcionado){
@@ -51,9 +59,9 @@ public class ManageCartas : MonoBehaviour
                     sons[0].Play();
                     if(numAcertos ==13){
                         PlayerPrefs.SetInt("Jogadas",numTentativas);
-                         if(numTentativas > recorde || recorde == 0){
+                         if(numTentativas <= recorde || recorde == 0){
                              sons[2].Play();
-                             PlayerPrefs.SetInt("Recorde",numTentativas);
+                             PlayerPrefs.SetInt("Recorde", numTentativas);
                             GameObject.Find("novoRecorde").GetComponent<Text>().text = "Parabens!!!! Novo Record de " + recorde + " pontos";
                          }
                          else{
@@ -80,16 +88,24 @@ public class ManageCartas : MonoBehaviour
             }
         }
     }
-    /*função que reinicia o jogo*/
+
+    /*
+        função que reinicia o jogo
+    */
     public void restart(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    /*botão que leva para a tela de fim de game*/
+    /*
+        botão que leva para a tela de fim de game
+    */
     public void telaCreditos(){
         SceneManager.LoadScene("Creditos");
     }
-    //Método que cria uma quantidade x de cartas
+    
+    /*
+        Método que cria uma quantidade x de cartas
+    */
     void MostraCartas()
     {
         if (dificuldade == 0)
@@ -99,7 +115,7 @@ public class ManageCartas : MonoBehaviour
             for (int i = 0; i < 13; i++)
             {
                 AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
+                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_spades");
             }
         }
         else if (dificuldade == 1)
@@ -109,8 +125,6 @@ public class ManageCartas : MonoBehaviour
             for (int i = 0; i < 13; i++)
             {
                 AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
                 AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
             }
         }
@@ -121,13 +135,7 @@ public class ManageCartas : MonoBehaviour
             for (int i = 0; i < 13; i++)
             {
                 AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
                 AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_spades");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_spades");
             }
         }
         else if(dificuldade == 3)
@@ -139,20 +147,8 @@ public class ManageCartas : MonoBehaviour
             for (int i = 0; i < 13; i++) 
             {
                 AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_clubs");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_clubs");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_hearts");
                 AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_hearts");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_diamonds");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_diamonds");
-                AddUmaCarta(0, i, arrayEmbaralhado[i], "_of_spades");
-                AddUmaCarta(1, i, arrayEmbaralhado1[i], "_of_spades");
-                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_clubs");
-                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_clubs");
-                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_hearts");
-                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_hearts");
                 AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_diamonds");
-                AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_diamonds");
-                AddUmaCarta(2, i, arrayEmbaralhado2[i], "_of_spades");
                 AddUmaCarta(3, i, arrayEmbaralhado3[i], "_of_spades");
             }
         }
@@ -160,7 +156,9 @@ public class ManageCartas : MonoBehaviour
         
     }
 
-    //Cria uma carta com as cartacteristicas segundo o parametro passado
+    /*
+        Cria uma carta com as cartacteristicas segundo o parametro passado
+    */
     void AddUmaCarta(int linha, int valor, int rank, string naipeDaCarta)
     {
         GameObject centro  = GameObject.Find("centroDaTela");
@@ -190,6 +188,10 @@ public class ManageCartas : MonoBehaviour
         Sprite s1 = (Sprite)(Resources.Load<Sprite>(nomeDaCarta)); //Encontra a imagem da carta no resources
         GameObject.Find("" + linha + " " +rank).GetComponent<Tile>().SetCartaOriginal(s1); // Seta no tile criado
     }
+    
+    /*
+        Função que cria um array embaralhado que será usado como a ordem das cartas
+    */
     public int[] criaArrayEmbaralhado()
     {
         int[] novoArray = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -203,6 +205,10 @@ public class ManageCartas : MonoBehaviour
         }
         return novoArray;
     }
+
+    /*
+        Metodo que revela a carta selecionada
+    */
     public void CartaSelecionada (GameObject carta){
         if(!primeiraCartaSelecionada){
             string linha = carta.name;
@@ -221,16 +227,26 @@ public class ManageCartas : MonoBehaviour
         }
     }
 
+    /*
+        Metodo que verifica a carta
+    */
     public void VerificaCartas(){
         DisparaTimer();
         numTentativas++;
         UpdateTentativas();
     }
 
+    /*
+        Metodo que dispara o timer
+    */
     public void DisparaTimer(){
         timerPausado = false;
         timerAcionado = true;
     }
+
+    /*
+        Metodo que atualiza o contador de tentativas
+    */
     void UpdateTentativas(){
         GameObject.Find("numTentativas").GetComponent<Text>().text = "Tentativas = " + numTentativas;
     }

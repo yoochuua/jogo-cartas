@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+///<summary>
+/// Classe que controla o funcionamento dos tiles
+///</summary>
 
 public class Tile : MonoBehaviour
 {
@@ -8,21 +11,28 @@ public class Tile : MonoBehaviour
     public Sprite originalCarta; // Sprite da frente da carta
     public Sprite backCarta; // Sprite do verso da carta vermelha
     public Sprite backCartaAzul; // Sprite do verso da carta azul
-    // Start is called before the first frame update
     int dificuldade = 0;
+    
+    /*
+        Start is called before the first frame update
+    */ 
     void Start()
     {
         dificuldade = PlayerPrefs.GetInt("Dificuldade",0);
         EscondeCarta();
     }
 
-    // Update is called once per frame
+    /*
+        Update is called once per frame
+    */
     void Update()
     {
         
     }
 
-    //Método que descreve o que fazer quando o mouse passa em cima do tile
+    /*
+        Método que descreve o que fazer quando o mouse passa em cima do tile
+    */
     public void OnMouseDown()
     {
         //Se carta já foi revelada, mostra a parte de trás ao clicar na carta
@@ -35,7 +45,9 @@ public class Tile : MonoBehaviour
             GameObject.Find("gameManager").GetComponent<ManageCartas>().CartaSelecionada(gameObject);
     }
 
-    //Método que vira a carta mostrando a parte de trás
+    /*
+        Método que vira a carta mostrando a parte de trás
+    */
     public void EscondeCarta()
     {
         if(dificuldade == 1){
@@ -52,14 +64,18 @@ public class Tile : MonoBehaviour
         }
     }
 
-    //Método que vira a carta mostrando a parte da frente
+    /*
+        Método que vira a carta mostrando a parte da frente
+    */
     public void RevelaCarta()
     {
         GetComponent<SpriteRenderer>().sprite = originalCarta;
         tileRevelada = true; 
     }
 
-    //Seta nova imagem da carta
+    /*
+        Seta nova imagem da carta
+    */
     public void SetCartaOriginal(Sprite novaCarta)
     {
         originalCarta = novaCarta;
